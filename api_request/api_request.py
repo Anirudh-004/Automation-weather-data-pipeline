@@ -8,7 +8,7 @@ api_key = os.getenv("api_key")
 api_url = f"http://api.weatherstack.com/current?access_key={api_key}&query=New York"
 
 
-def fetch_data(api_url):
+def fetch_data():
     print("Fetching weather data from weatherstack API....")
     try:
         response = requests.get(api_url)

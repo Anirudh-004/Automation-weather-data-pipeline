@@ -1,4 +1,4 @@
-from api_request import mock_fetch_data
+from api_request import mock_fetch_data, fetch_data
 import psycopg2
 from dotenv import load_dotenv
 from psycopg2 import Error
@@ -11,8 +11,8 @@ def connect_to_postgres():
     print('CConnecting to Postgres DB....')
     try:
         conn = psycopg2.connect(
-            host='localhost',
-            port=5000,
+            host='db', # connecting to the postgres running inside a docker container
+            port=5432, # postgres docker image port number
             dbname=os.getenv("POSTGRES_DB"),
             user=os.getenv("POSTGRES_USER"),
             password=os.getenv("POSTGRES_PASSWORD")
@@ -79,10 +79,18 @@ def insert_records(conn, data):
 
 def main():
     try:
-        result = mock_fetch_data()
+        #result = mock_fetch_data()
+        result = fetch_data()
         conn = connect_to_postgres()
         create_table(conn)
         insert_records(conn, result)
-    
+    except Exception as e:
+        print(f"An error occurred during execution {e}")
+    finally:
+        if 'conn' in locals():
+            conn.close()
+            print("Database connection closed.")
+
+
 if __name__ == "__main__":
     main()

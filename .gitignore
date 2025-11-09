@@ -1,3 +1,5 @@
 .env
 venv
-postgres
+/root/repos/weather_data_project/postgres/data
+/root/repos/weather_data_project/.dbt/profiles.yml
+/root/repos/weather_data_project/api_request/__pycache__
