@@ -1,5 +1,5 @@
 .env
 venv
-postgres/data
-.dbt/profiles.yml
-api_request/__pycache__
+/postgres/data
+/.dbt/profiles.yml
+/api_request/__pycache__
