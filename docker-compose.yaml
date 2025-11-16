@@ -35,6 +35,9 @@ services:
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - ./api_request:/opt/airflow/api_request
+      - /var/run/docker.sock:/var/run/docker.sock
+    group_add:
+      - '1000'
     depends_on:
       db:
         condition: service_healthy
@@ -54,8 +57,8 @@ services:
     container_name: dbt_container
     image: ghcr.io/dbt-labs/dbt-postgres:1.9.latest
     volumes:
-      - .dbt/weather_analytics:/usr/app # you can find the files profiles.yml and dbt_project.yml inside weather_analytics project folder 
-      - .dbt:/root/.dbt
+      - .dbt/weather_analytics:/usr/app # you can find the files dbt_project.yml inside weather_analytics project folder 
+      - .dbt:/root/.dbt #home directory in dbt profiles.yml
     working_dir: /usr/app # tells docker container to run the dbt commands inside this folder /usr/app by default (its like cd /usr/app)
     environment:
       DBT_PROFILES_DIR: "/root/.dbt"
@@ -63,7 +66,24 @@ services:
       - db
     networks:
       - my-network
-    command: run # (init, debug, run -->order)
+    command: run  # (init, debug, run -->order)
+  
+  fastapi:
+    build:
+      context: ./backend
+    container_name: fastapi_backend
+    ports:
+      - "8000:8080"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+    depends_on:
+      - db
+    networks:
+      - my-network
 
 networks:
   my-network:
