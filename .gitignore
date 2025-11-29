@@ -3,3 +3,6 @@ venv
 /postgres/data
 /.dbt/profiles.yml
 /api_request/__pycache__
+/backend/__pycache__
+/streamit_app/pages/__pycache__
+/streamit_app/utils/__pycache__
