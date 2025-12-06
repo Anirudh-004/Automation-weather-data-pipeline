@@ -16,8 +16,6 @@ dbt	SQL modeling (staging → intermediate → mart)
 FastAPI	Serves weather insights through REST APIs
 Streamlit	Frontend UI dashboard
 Docker Compose	Manages and networks all services
-🏗 Architecture Diagram
-![Architecture Diagram](Downloads/data_pipeline_architecture.png)
 
 🗄 Data Flow Summary
 1️⃣ Ingestion (Airflow → Postgres raw table)
